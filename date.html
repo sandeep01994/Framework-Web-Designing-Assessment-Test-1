@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Find the Date Interval</h2>
+        <div class="row">
+            <div class='col-md-5'>
+                <div class="form-group">
+                    <label for="startDate">Start Date:</label>
+                    <div class='input-group date' id='startDatePicker'>
+                        <input type='text' class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class='col-md-5'>
+                <div class="form-group">
+                    <label for="endDate">End Date:</label>
+                    <div class='input-group date' id='endDatePicker'>
+                        <input type='text' class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary" id="calculateBtn">Calculate</button>
+                <div class="result"></div>
+            </div>
+        </div>
+    </div>
+   
+    <script>
+        $(function () {
+            // Initialize date pickers
+            $('#startDatePicker').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+            $('#endDatePicker').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+
+            // Calculate date interval on button click
+            $('#calculateBtn').on('click', function () {
+                var startDate = moment($('#startDatePicker input').val(), 'YYYY-MM-DD');
+                var endDate = moment($('#endDatePicker input').val(), 'YYYY-MM-DD');
+
+                if (startDate.isValid() && endDate.isValid()) {
+                    // Calculate the date interval
+                    var diff = endDate.diff(startDate, 'days');
+                    var years = endDate.diff(startDate, 'years');
+                    var months = endDate.diff(startDate, 'months');
+                    var weeks = endDate.diff(startDate, 'weeks');
+                    var days = diff % 365 % 30;
+
+                    // Display the result
+                    var result = '<p>Date interval:</p>';
+                    result += '<p>' + years + ' years, ' + months + ' months, ' + weeks + ' weeks, ' + days + ' days</p>';
+                    $('.result').html(result);
+                } else {
+                    alert('Please enter valid dates.');
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>
